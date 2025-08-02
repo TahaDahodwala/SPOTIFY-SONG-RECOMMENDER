@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics.pairwise import euclidean_distances
 import random
 
-data = pd.read_csv('F:/TAHA/ML/SPOTIFY SONG RECOMMENDER/dataset.xls')
+data = pd.read_csv('dataset.xls')
 
 with open('model.pkl', 'rb') as f:
     model = pickle.load(f)
