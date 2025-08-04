@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics.pairwise import euclidean_distances
 import random
 
-data = pd.read_excel('dataset.xlsx', engine = 'openpyxl')
+data = pd.read_csv('dataset.csv')
 
 with open('model1.pkl', 'rb') as f:
     model = pickle.load(f)
