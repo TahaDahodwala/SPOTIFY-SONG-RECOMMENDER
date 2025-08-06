@@ -179,7 +179,7 @@ lang_map = {
     "unknown": "Unknown",
 }
 
-print("TExt",text)
+print("TExt")
 # available_lang = sorted(data['language'].unique())
 # available_lang = [lang_map.get(lang, lang) for lang in available_lang]
 
