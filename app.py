@@ -178,6 +178,7 @@ lang_map = {
     "zh-cn": "Chinese",
     "unknown": "Unknown",
 }
+
 print("TExt",text)
 # available_lang = sorted(data['language'].unique())
 # available_lang = [lang_map.get(lang, lang) for lang in available_lang]
