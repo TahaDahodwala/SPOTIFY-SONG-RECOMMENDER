@@ -18,12 +18,12 @@ def detect_language(text):
             return "unknown"
     
 
-if "language" not in data.columns:
-    st.info("Detecting language for the first time, please wait.")
-    data['language'] = data['track_name'].apply(detect_language)
-    data.to_csv('final_dataset.csv', index=False)
+# if "language" not in data.columns:
+#     st.info("Detecting language for the first time, please wait.")
+    
+#     data.to_csv('final_dataset.csv', index=False)
 
-data = pd.read_csv('final_dataset.csv')
+# data = pd.read_csv('final_dataset.csv')
 print(data.shape)
 
 with open('model1.pkl', 'rb') as f:
@@ -161,6 +161,7 @@ def recommend_songs(user_input, model, data_original, scaler):
     closest_songs = cluster_songs.iloc[sorted_indices[:top_n]]
 
     unique_recommendations = cluster_songs.drop_duplicates(subset=['track_name', 'artists']).sample(frac = 1).reset_index(drop = True)
+    unique_recommendations['language'] = unique_recommendations['track_name'].apply(detect_language)
 
     # Prepare final result
     results_df = unique_recommendations[['track_id','track_name', 'artists']].head(5)
@@ -181,10 +182,7 @@ lang_map = {
 }
 
 print("TExt")
-available_lang = sorted(data['language'].unique())
-available_lang = [lang_map.get(lang, lang) for lang in available_lang]
 
-lang_choice = st.selectbox("Choose your preferred language", ["All"] + available_lang)
 
 # When user enters mood and hits "Recommend"
 if user_mood:
@@ -196,6 +194,10 @@ if user_mood:
     # Randomize and limit to 10 each time
     num_songs_to_show = 10
     final_recommendations = all_recs.sample(n=min(num_songs_to_show, len(all_recs)))
+    available_lang = sorted(final_recommendations['language'].unique())
+    available_lang = [lang_map.get(lang, lang) for lang in available_lang]
+
+    lang_choice = st.selectbox("Choose your preferred language", ["All"] + available_lang)
 
     # Refresh button
     if st.button("🔁 Refresh Recommendations"):
