@@ -13,6 +13,7 @@ data = pd.read_csv('dataset original.xls')
 def detect_language(text):
     if isinstance(text, str) and text.strip() != "":
         try:
+            print("text",text)
             return detect(text)
         except LangDetectException:
             return "unknown"
