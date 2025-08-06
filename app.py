@@ -163,6 +163,7 @@ def recommend_songs(user_input, model, data_original, scaler):
 
     unique_recommendations = cluster_songs.drop_duplicates(subset=['track_name', 'artists']).sample(frac = 1).reset_index(drop = True)
     unique_recommendations['language'] = unique_recommendations['track_name'].apply(detect_language)
+    print(unique_recommendations.shape)
 
     # Prepare final result
     results_df = unique_recommendations[['track_id','track_name', 'artists']].head(5)
