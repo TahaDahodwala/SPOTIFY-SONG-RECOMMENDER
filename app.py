@@ -215,7 +215,7 @@ if user_mood:
             f"""
             <iframe style="border-radius:12px" 
                     src="{embed_url}" 
-                    width="80%" height="80" frameBorder="0" 
+                    width="100%" height="80" frameBorder="0" 
                     allowfullscreen 
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
                     loading="lazy">
