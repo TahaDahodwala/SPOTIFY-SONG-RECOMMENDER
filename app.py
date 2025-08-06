@@ -196,7 +196,7 @@ if user_mood:
 
     # Display recommendations
     st.subheader("Recommended Tracks 🎶")
-     if lang_choice != "All":
+    if lang_choice != "All":
         code_map = {v: k for k,v in lang_map.items()}
         selected_lang_code = code_map.get(lang_choice, lang_choice)
         data = data[data["language"] == selected_lang_code]
