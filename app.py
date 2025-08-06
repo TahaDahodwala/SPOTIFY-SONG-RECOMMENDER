@@ -5,8 +5,20 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics.pairwise import euclidean_distances
 import random
+from langdetect import detect, DetectorFactory
+from langdetect.lang_detect_exception import LangDetectException
 
 data = pd.read_csv('dataset original.xls')
+
+def detect_language(text):
+    try:
+        detect(text)
+    except LangDetectException:
+        return "unknown"
+
+if "language" not in data.columns:
+    st.info("Detecting language for the first time, please wait.")
+    data['language'] == data['track_name'].apply(detect_language)
 
 with open('model1.pkl', 'rb') as f:
     model = pickle.load(f)
@@ -154,6 +166,19 @@ st.title("🎧 Mood-Based Song Recommender")
 # Text input or mood selection
 user_mood = st.text_input("What's your mood right now?", "")
 
+lang_map = {
+    "en": "English",
+    "hi": "Hindi",
+    "ja": "Japanese",
+    "zh-cn": "Chinese",
+    "unknown": "Unknown",
+}
+
+available_lang = sorted(data['language'].unique())
+available_lang = [lang_map.get(lang, lang) for lang in available_lang]
+
+lang_choice = st.selectbox("Choose your preferred language", ["All"] + available_lang)
+
 # When user enters mood and hits "Recommend"
 if user_mood:
     all_recs = recommend_songs(user_mood, model, data, scaler)
@@ -171,22 +196,26 @@ if user_mood:
 
     # Display recommendations
     st.subheader("Recommended Tracks 🎶")
-    for index, row in final_recommendations.iterrows():
-        st.markdown(f"{row['track_name']} - {row['artists']}")
+     if lang_choice != "All":
+        code_map = {v: k for k,v in lang_map.items()}
+        selected_lang_code = code_map.get(lang_choice, lang_choice)
+        data = data[data["language"] == selected_lang_code]
+        for index, row in final_recommendations.iterrows():
+            st.markdown(f"{row['track_name']} - {row['artists']}")
 
-        # Spotify Embed using track_id
-        track_id = row['track_id']
-        embed_url = f"https://open.spotify.com/embed/track/{track_id}"
-        st.components.v1.html(
-            f"""
-            <iframe style="border-radius:12px" 
-                    src="{embed_url}" 
-                    width="80%" height="80" frameBorder="0" 
-                    allowfullscreen 
-                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                    loading="lazy">
-            </iframe>
-            """,
-            height=100
-        )
+            # Spotify Embed using track_id
+            track_id = row['track_id']
+            embed_url = f"https://open.spotify.com/embed/track/{track_id}"
+            st.components.v1.html(
+                f"""
+                <iframe style="border-radius:12px" 
+                        src="{embed_url}" 
+                        width="80%" height="80" frameBorder="0" 
+                        allowfullscreen 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy">
+                </iframe>
+                """,
+                height=100
+            )
 
