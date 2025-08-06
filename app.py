@@ -162,7 +162,7 @@ def recommend_songs(user_input, model, data_original, scaler):
     closest_songs = cluster_songs.iloc[sorted_indices[:top_n]]
 
     unique_recommendations = cluster_songs.drop_duplicates(subset=['track_name', 'artists']).sample(frac = 1).reset_index(drop = True)
-    print(unique_recommendations.shape)
+    print("*****************************************",unique_recommendations.shape)
     unique_recommendations['language'] = unique_recommendations['track_name'].apply(detect_language)
     
 
