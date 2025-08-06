@@ -10,12 +10,12 @@ from langdetect.lang_detect_exception import LangDetectException
 
 data = pd.read_csv('dataset original.xls')
 
-def detect_language(text):
-    if isinstance(text, str) and text.strip() != "":
-        try:
-            return detect(text)
-        except LangDetectException:
-            return "unknown"
+# def detect_language(text):
+#     if isinstance(text, str) and text.strip() != "":
+#         try:
+#             return detect(text)
+#         except LangDetectException:
+#             return "unknown"
     
 
 # if "language" not in data.columns:
