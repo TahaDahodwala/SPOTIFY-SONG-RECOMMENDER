@@ -12,7 +12,7 @@ data = pd.read_csv('dataset original.xls')
 
 def detect_language(text):
     try:
-        detect(text)
+        return detect(text)
     except LangDetectException:
         return "unknown"
 
