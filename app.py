@@ -18,7 +18,7 @@ def detect_language(text):
 
 if "language" not in data.columns:
     st.info("Detecting language for the first time, please wait.")
-    data['language'] == data['track_name'].apply(detect_language)
+    data['language'] = data['track_name'].apply(detect_language)
 
 with open('model1.pkl', 'rb') as f:
     model = pickle.load(f)
