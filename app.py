@@ -186,8 +186,13 @@ if user_mood:
 
     # Refresh button
     if st.button("🔁 Refresh Recommendations"):
-        final_recommendations = all_recs.sample(n=min(num_songs_to_show, len(all_recs)))
-        print("number of records", len(all_recs))
+        if len(all_recs) < num_songs_to_show:
+            final_recommendations = all_recs
+        else:
+            
+            final_recommendations = all_recs.sample(n=min(num_songs_to_show, len(all_recs)))
+        print("number of records", len(all_recs), all_recs)
+        st.text(final_recommendations)
 
     # Display recommendations
     st.subheader("Recommended Tracks 🎶")
