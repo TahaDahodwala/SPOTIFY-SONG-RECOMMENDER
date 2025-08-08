@@ -8,23 +8,7 @@ import random
 from langdetect import detect, DetectorFactory
 from langdetect.lang_detect_exception import LangDetectException
 
-data = pd.read_csv('dataset original.xls')
-
-def detect_language(text):
-    if isinstance(text, str) and text.strip() != "":
-        try:
-            print("text",text)
-            return detect(text)
-        except LangDetectException:
-            return "unknown"
-    
-
-# if "language" not in data.columns:
-#     st.info("Detecting language for the first time, please wait.")
-    
-#     data.to_csv('final_dataset.csv', index=False)
-
-# data = pd.read_csv('final_dataset.csv')
+data = pd.read_csv('final_dataset.csv')
 print(data.shape)
 
 with open('model1.pkl', 'rb') as f:
@@ -162,8 +146,6 @@ def recommend_songs(user_input, model, data_original, scaler):
     closest_songs = cluster_songs.iloc[sorted_indices[:top_n]]
 
     unique_recommendations = cluster_songs.drop_duplicates(subset=['track_name', 'artists']).sample(frac = 1).reset_index(drop = True)
-    print("*****************************************",unique_recommendations.shape)
-    unique_recommendations['language'] = unique_recommendations['track_name'].apply(detect_language)
     
 
     # Prepare final result
