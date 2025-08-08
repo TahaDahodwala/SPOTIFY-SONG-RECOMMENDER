@@ -149,7 +149,7 @@ def recommend_songs(user_input, model, data_original, scaler):
     
 
     # Prepare final result
-    results_df = unique_recommendations[['track_id','track_name', 'artists']].head(5)
+    results_df = unique_recommendations[['language', 'track_id','track_name', 'artists']].head(5)
     return results_df
 
 # Title
